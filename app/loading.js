@@ -1,9 +1,7 @@
+import Spinner from "@/app/_components/Spinner";
+
 function loader() {
-  return (
-    <div>
-      <h1 className="spinner bg-red-600"></h1>;
-    </div>
-  );
+  return <Spinner />;
 }
 
 export default loader;
