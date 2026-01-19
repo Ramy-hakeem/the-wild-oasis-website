@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import CabinList from "../_components/CabinList";
 import Loader from "./loading";
+export const revalidate = 3600;
 
 export const metadata = {
   title: "Cabins",
