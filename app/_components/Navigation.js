@@ -1,36 +1,41 @@
+"use client";
 import Link from "next/link";
-
+import { usePathname } from "next/navigation";
+const navLinks = [
+  {
+    name: "Home",
+    href: "/",
+  },
+  {
+    name: "Cabins",
+    href: "/cabins",
+  },
+  {
+    name: "About",
+    href: "/about",
+  },
+  {
+    name: "Guest area",
+    href: "/account",
+  },
+];
 export default function Navigation() {
+  const pathname = usePathname();
+  console.log(pathname);
   return (
     <nav className="z-10 text-xl">
       <ul className="flex gap-16 items-center">
-        <li>
-          <Link
-            prefetch
-            href="/cabins"
-            className="hover:text-accent-400 transition-colors"
-          >
-            Cabins
-          </Link>
-        </li>
-        <li>
-          <Link
-            prefetch
-            href="/about"
-            className="hover:text-accent-400 transition-colors"
-          >
-            About
-          </Link>
-        </li>
-        <li>
-          <Link
-            prefetch
-            href="/account"
-            className="hover:text-accent-400 transition-colors"
-          >
-            Guest area
-          </Link>
-        </li>
+        {navLinks.map((link) => (
+          <li key={link.name}>
+            <Link
+              prefetch
+              href={link.href}
+              className={`hover:text-accent-400 transition-colors ${pathname === link.href ? "text-accent-400 font-semibold" : ""}`}
+            >
+              {link.name}
+            </Link>
+          </li>
+        ))}
       </ul>
     </nav>
   );
