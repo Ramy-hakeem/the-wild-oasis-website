@@ -5,48 +5,55 @@ export default function Filter() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  function updateFilter(capacity) {
+  const activeFilter = searchParams.get("capacity") ?? "all";
+  function handleFilter(capacity) {
     const params = new URLSearchParams(searchParams.toString());
     params.set("capacity", capacity);
     router.replace(pathname + "?" + params.toString(), { scroll: false });
   }
   return (
     <div className="border border-primary-800">
-      <button
-        onClick={() => updateFilter("all")}
-        className={`px-5 py-2 hover:bg-primary-700  ${
-          !searchParams.get("capacity") ||
-          searchParams.get("capacity") === "all"
-            ? "bg-primary-700"
-            : ""
-        }`}
+      <Button
+        filter="all"
+        handleFilter={handleFilter}
+        activeFilter={activeFilter}
       >
         All Cabins
-      </button>
-      <button
-        onClick={() => updateFilter("small")}
-        className={`px-5 py-2 hover:bg-primary-700  ${
-          searchParams.get("capacity") === "small" ? "bg-primary-700" : ""
-        }`}
+      </Button>
+      <Button
+        filter="small"
+        handleFilter={handleFilter}
+        activeFilter={activeFilter}
       >
         1 &mdash; 3 guests{" "}
-      </button>
-      <button
-        onClick={() => updateFilter("medium")}
-        className={`px-5 py-2 hover:bg-primary-700  ${
-          searchParams.get("capacity") === "medium" ? "bg-primary-700" : ""
-        }`}
+      </Button>
+      <Button
+        filter="medium"
+        handleFilter={handleFilter}
+        activeFilter={activeFilter}
       >
         4 &mdash; 7 guests{" "}
-      </button>
-      <button
-        onClick={() => updateFilter("large")}
-        className={`px-5 py-2 hover:bg-primary-700  ${
-          searchParams.get("capacity") === "large" ? "bg-primary-700" : ""
-        }`}
+      </Button>
+      <Button
+        filter="large"
+        handleFilter={handleFilter}
+        activeFilter={activeFilter}
       >
-        8 &mdash; 10 guests{" "}
-      </button>
+        8 &mdash; 12 guests
+      </Button>
     </div>
+  );
+}
+
+function Button({ filter, handleFilter, activeFilter, children }) {
+  return (
+    <button
+      onClick={() => handleFilter(filter)}
+      className={`px-5 py-2 hover:bg-primary-700  ${
+        activeFilter === filter ? "bg-primary-700 text-primary-50" : ""
+      }`}
+    >
+      {children}
+    </button>
   );
 }
