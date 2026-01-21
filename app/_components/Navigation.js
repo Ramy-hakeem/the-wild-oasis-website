@@ -21,7 +21,8 @@ const navLinks = [
 ];
 export default function Navigation() {
   const pathname = usePathname();
-  console.log(pathname);
+  const isActive = (href) =>
+    pathname === href || pathname.startsWith(href + "/");
   return (
     <nav className="z-10 text-xl">
       <ul className="flex gap-16 items-center">
@@ -30,7 +31,7 @@ export default function Navigation() {
             <Link
               prefetch
               href={link.href}
-              className={`hover:text-accent-400 transition-colors ${pathname === link.href ? "text-accent-400 font-semibold" : ""}`}
+              className={`hover:text-accent-400 transition-colors ${isActive(link.href) ? "text-accent-400 font-semibold" : ""}`}
             >
               {link.name}
             </Link>
