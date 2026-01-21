@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import CabinList from "../_components/CabinList";
 import Loader from "./loading";
 import Filter from "../_components/Filter";
+import ReservationReminder from "../_components/ReservationReminder";
 
 // this revalidate doesn't work with dynamic search params, only with static paths
 // export const revalidate = 3600;
@@ -30,6 +31,7 @@ async function Page({ searchParams }) {
       </div>
       <Suspense fallback={<Loader />} key={filter}>
         <CabinList filter={filter} />
+        <ReservationReminder />
       </Suspense>
     </div>
   );

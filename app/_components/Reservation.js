@@ -8,7 +8,7 @@ export default async function Reservation({ cabin }) {
     getBookedDatesByCabinId(cabin.id),
   ]);
   return (
-    <div className="grid grid-cols-2 border border-primary-800 min-h-[200px] ">
+    <div className="flex justify-between flex-row border gap-0 border-primary-800 min-h-[200px] w-[75rem]">
       <DateSelector
         settings={settings}
         bookingDates={bookingDates}
