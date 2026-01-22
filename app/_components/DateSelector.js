@@ -1,6 +1,6 @@
 "use client";
 import { isWithinInterval, set } from "date-fns";
-import { DayPicker } from "react-day-picker";
+import { DayPicker, UI } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import { useReservation } from "./ReservationContext";
 
@@ -34,7 +34,6 @@ function DateSelector({ settings, bookingDates, cabin }) {
         max={maxBookingLength}
         onSelect={(rang) => {
           setRange(rang);
-          console.log(range);
         }}
         selected={range}
         fromMonth={new Date()}
@@ -43,6 +42,14 @@ function DateSelector({ settings, bookingDates, cabin }) {
         captionLayout="dropdown"
         numberOfMonths={2}
         classNames={{
+          [UI.Week]: "grid grid-cols-7 gap-0",
+          [UI.Day]: "h-8 w-8  flex items-center justify-center",
+          [UI.Weekdays]: "grid grid-cols-7 gap-0",
+          [UI.Weekday]: "w-8  text-center",
+          [UI.Tbody]: "space-y-1",
+          [UI.Month]: "space-y-2",
+        }}
+        modifiersClassNames={{
           range_start: "bg-accent-500 text-white rounded-l-full",
           range_end: "bg-accent-500 text-white rounded-r-full",
           range_middle: "bg-accent-200 text-primary-900",

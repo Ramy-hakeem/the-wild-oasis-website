@@ -14,12 +14,8 @@ const navLinks = [
     name: "About",
     href: "/about",
   },
-  {
-    name: "Guest area",
-    href: "/account",
-  },
 ];
-export default function Navigation() {
+export default function Navigation({ session }) {
   const pathname = usePathname();
   const isActive = (href) =>
     pathname === href || pathname.startsWith(href + "/");
@@ -37,6 +33,33 @@ export default function Navigation() {
             </Link>
           </li>
         ))}
+        {session?.user?.image ? (
+          <li key="Guest area">
+            <Link
+              prefetch
+              href={"/account"}
+              className={`flex items-center gap-4 hover:text-accent-400 transition-colors ${isActive("/account") ? "text-accent-400 font-semibold" : ""}`}
+            >
+              <img
+                src={session.user.image}
+                alt="User avatar"
+                className="h-8  rounded-full"
+                referrerPolicy="no-referrer"
+              />
+              <span className="ml-2">Guest area</span>
+            </Link>
+          </li>
+        ) : (
+          <li key="Guest area">
+            <Link
+              prefetch
+              href={"/account"}
+              className={`hover:text-accent-400 transition-colors ${isActive("/account") ? "text-accent-400 font-semibold" : ""}`}
+            >
+              Guest area
+            </Link>
+          </li>
+        )}
       </ul>
     </nav>
   );
