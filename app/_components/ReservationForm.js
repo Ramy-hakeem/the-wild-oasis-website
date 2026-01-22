@@ -1,29 +1,46 @@
 "use client";
+import { differenceInDays } from "date-fns";
 import { useReservation } from "./ReservationContext";
+import { createReservation } from "../_lib/actions";
+import SubmitButton from "./SubmitButton";
 
 function ReservationForm({ cabin, session }) {
-  const { range } = useReservation();
-
-  // CHANGE
-  const maxCapacity = cabin.maxCapacity;
-
+  const { range, setRange } = useReservation();
+  const { regularPrice, discount, maxCapacity, id } = cabin;
+  const { from: startDate, to: endDate } = range;
+  const numNights = +differenceInDays(endDate, startDate);
+  const cabinPrice = numNights * (regularPrice - discount);
+  const bookingData = {
+    startDate,
+    endDate,
+    numNights,
+    cabinPrice,
+    cabinId: id,
+  };
+  const createBooingWithData = createReservation.bind(null, bookingData);
   return (
     <div className="scale-[1.01]">
       <div className="bg-primary-800 text-primary-300 px-10 py-2 flex justify-between items-center">
         <p>Logged in as {session?.user?.name}</p>
 
-        {/* <div className='flex gap-4 items-center'>
+        <div className="flex gap-4 items-center">
           <img
             // Important to display google profile images
-            referrerPolicy='no-referrer'
-            className='h-8 rounded-full'
-            src={user.image}
-            alt={user.name}
+            referrerPolicy="no-referrer"
+            className="h-8 rounded-full"
+            src={session?.user?.image}
+            alt={session?.user?.name}
           />
-          <p>{user.name}</p>
-        </div> */}
+          <p>{session?.user?.name}</p>
+        </div>
       </div>
-      <form className="bg-primary-900 py-10 px-10 text-lg flex gap-5 flex-col ">
+      <form
+        action={async (formData) => {
+          await createBooingWithData(formData);
+          setRange({});
+        }}
+        className="bg-primary-900 py-10 px-10 text-lg flex gap-5 flex-col "
+      >
         {
           <p className="">
             {String(range?.from)} to {String(range?.to)}
@@ -61,11 +78,15 @@ function ReservationForm({ cabin, session }) {
         </div>
 
         <div className="flex justify-end items-center gap-6">
-          <p className="text-primary-300 text-base">Start by selecting dates</p>
-
-          <button className="bg-accent-500 px-8 py-4 text-primary-800 font-semibold hover:bg-accent-600 transition-all disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300">
-            Reserve now
-          </button>
+          {startDate && endDate ? (
+            <SubmitButton pendingLabel={"Reserving..."}>
+              Reserve now
+            </SubmitButton>
+          ) : (
+            <p className="text-primary-300 text-base">
+              Start by selecting dates
+            </p>
+          )}
         </div>
       </form>
     </div>

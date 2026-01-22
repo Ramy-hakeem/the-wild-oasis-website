@@ -1,8 +1,6 @@
 "use client";
 
-import { useFormStatus } from "react-dom";
 import { updateGuest } from "../_lib/actions";
-import UpdateButton from "./UpdateButton";
 function UpdateProfileForm({ children, guest }) {
   const { countryFlag, email, nationalID, fullName } = guest;
   // CHANGE
@@ -53,7 +51,7 @@ function UpdateProfileForm({ children, guest }) {
           className="px-5 py-3 bg-primary-200 text-primary-800 w-full shadow-sm rounded-sm"
         />
       </div>
-      <UpdateButton>Update profile</UpdateButton>
+      <SubmitButton pendingLabel={"Updating..."}>Update profile</SubmitButton>
     </form>
   );
 }

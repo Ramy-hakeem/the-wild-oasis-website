@@ -8,8 +8,8 @@ const intialState = {
 };
 export function ReservationProvider({ children }) {
   const [range, setRange] = useState(intialState.range);
-  const [numGuests, setNumGuests] = useState(intialState.numGuests);
-  const [observations, setObservations] = useState(intialState.observations);
+  // const [numGuests, setNumGuests] = useState(intialState.numGuests);
+  // const [observations, setObservations] = useState(intialState.observations);
   function resetRange() {
     setRange({ from: null, to: null });
   }
@@ -19,10 +19,10 @@ export function ReservationProvider({ children }) {
       value={{
         range,
         setRange,
-        numGuests,
-        setNumGuests,
-        observations,
-        setObservations,
+        // numGuests,
+        // setNumGuests,
+        // observations,
+        // setObservations,
         resetRange,
       }}
     >
