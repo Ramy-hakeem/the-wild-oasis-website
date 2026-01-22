@@ -25,14 +25,14 @@ export default function Filter() {
         handleFilter={handleFilter}
         activeFilter={activeFilter}
       >
-        1 &mdash; 3 guests{" "}
+        1 &mdash; 3 guests
       </Button>
       <Button
         filter="medium"
         handleFilter={handleFilter}
         activeFilter={activeFilter}
       >
-        4 &mdash; 7 guests{" "}
+        4 &mdash; 7 guests
       </Button>
       <Button
         filter="large"
