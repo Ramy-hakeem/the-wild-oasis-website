@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { auth, signIn, signOut } from "./auth";
 import supabase from "./supabase";
 import { getBookings } from "./data-service";
+import { redirect } from "next/navigation";
 
 export async function signOutAction() {
   await signOut({ redirectTo: "/" });
@@ -59,4 +60,34 @@ export async function deleteReservation(bookingId) {
     throw new Error("Booking could not be deleted");
   }
   revalidatePath("/account/reservations");
+}
+
+export async function updateReservation(formData, bookingId) {
+  const session = await auth();
+  if (!session?.user) {
+    throw new Error("Not authenticated");
+  }
+  const guestBookings = await getBookings(session.user.id);
+  const bookingToUpdate = guestBookings.find(
+    (booking) => +booking.id === +bookingId,
+  );
+  console.log("check what is wrong", session.user.id, bookingId, guestBookings);
+  if (!bookingToUpdate) {
+    throw new Error("Booking not found or does not belong to the user");
+  }
+  const updates = Object.fromEntries(formData.entries());
+  const { error } = await supabase
+    .from("bookings")
+    .update(updates)
+    .eq("id", bookingId)
+    .select()
+    .single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Booking could not be updated");
+  }
+  revalidatePath(`/account/reservations/edit/${bookingId}`);
+  redirect("/account/reservations");
+  // revalidatePath("/account/reservations");
 }
