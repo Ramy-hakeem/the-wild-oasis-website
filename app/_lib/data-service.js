@@ -5,8 +5,6 @@ import { notFound } from "next/navigation";
 // GET
 
 export async function getCabin(id) {
-  if (!id) return null;
-
   const { data, error } = await supabase
     .from("cabins")
     .select("*")

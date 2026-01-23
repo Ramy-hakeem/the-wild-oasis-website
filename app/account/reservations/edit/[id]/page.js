@@ -3,7 +3,7 @@ import { updateReservation } from "@/app/_lib/actions";
 import { getBooking, getCabin } from "@/app/_lib/data-service";
 
 export default async function Page({ params }) {
-  const reservationId = params.id;
+  const reservationId = (await params)?.id;
   const { numGuests, cabinId, observations } = await getBooking(reservationId);
   const { maxCapacity } = await getCabin(cabinId);
 
